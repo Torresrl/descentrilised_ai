@@ -20,7 +20,7 @@ import copy
 
 import pandas as pd
 import numpy as np
-np.random.bit_generator = np.random._bit_generator
+
 
 from tensorflow.keras.preprocessing import image
 from tensorflow import keras
@@ -480,7 +480,7 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 1e-4
+policy_lr = 1e-2
 value_lr = 1e-3 #-2
 
 policy_clip = 3
@@ -524,7 +524,7 @@ class policy_model:
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
         self.policy = Model(inputs=[inputes, actions_true, advantages], outputs=[out_1])
         self.policy.add_loss(custom_loss(actions_true, out_1, advantages))
-        self.policy.compile(optimizer=Adam(lr=policy_lr)) # -3, -2 give NaN if value is -4, 8e-3
+        self.policy.compile(optimizer=SGD(lr=policy_lr)) # -3, -2 give NaN if value is -4, 8e-3
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss='mean_squared_error')
         #self.policy.compile(optimizer=Adam(lr=1e-1), loss='mean_squared_error')
         self.prediction = Model(inputs=inputes, outputs=[out_1])
@@ -754,7 +754,7 @@ policy_mod = policy_model(box_size, value_lr, value_clip)
 
 
 num_models = len(list(model_info.keys()))
-index_list = range(1_000, len(img_val_list))
+index_list = range(0, len(img_val_list))
 num_trials = len(index_list) // TEST_ROUNDS
 
 if REDUCED_LIST:
@@ -824,7 +824,7 @@ print(f'IoU Score: {np.array(iou_score_list).mean()}') #0.01849434094551282, 0.1
 # In[19]:
 
 
-optimizer = 'Adam'
+optimizer = 'SGD'
 model_info_save = {
     'policy_lr': policy_lr,
     'value_lr': value_lr,
