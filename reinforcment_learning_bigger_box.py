@@ -480,7 +480,7 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 1e-2
+policy_lr = 1e-1
 value_lr = 1e-3 #-2
 
 policy_clip = 3
@@ -500,7 +500,7 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(512, activation=ACTI)(inputes) #512
+        _ = Dense(1024, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(256, activation=ACTI)(_)
@@ -524,7 +524,7 @@ class policy_model:
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
         self.policy = Model(inputs=[inputes, actions_true, advantages], outputs=[out_1])
         self.policy.add_loss(custom_loss(actions_true, out_1, advantages))
-        self.policy.compile(optimizer=SGD(lr=policy_lr)) # -3, -2 give NaN if value is -4, 8e-3
+        self.policy.compile(optimizer=Adam(lr=policy_lr)) # -3, -2 give NaN if value is -4, 8e-3
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss='mean_squared_error')
         #self.policy.compile(optimizer=Adam(lr=1e-1), loss='mean_squared_error')
         self.prediction = Model(inputs=inputes, outputs=[out_1])
@@ -552,11 +552,11 @@ class value_model:
 
         inputes = Input(shape=(innput_size*4,)) #dtype=float64
         _ = Dense(256, activation=ACTI)(inputes)
-        _ = Dense(256, activation=ACTI)(_)
+        _ = Dense(1024, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(128, activation=ACTI)(_)
+        #_ = Dense(128, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(64, activation=ACTI)(_)
+        #_ = Dense(64, activation=ACTI)(_)
         out_1 = Dense(1)(_)
         #sgd = SGD(lr=1e-3) #5
         adam = Adam(lr=value_lr, clipvalue=5) # -3 workes
@@ -746,7 +746,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 
 
 TEST_ROUNDS = 10
-REDUCED_LIST = True
+REDUCED_LIST = False
 gamma = 1
 box_size = 10 #2
 value_func = value_model(box_size, policy_lr, policy_clip)
@@ -824,7 +824,7 @@ print(f'IoU Score: {np.array(iou_score_list).mean()}') #0.01849434094551282, 0.1
 # In[19]:
 
 
-optimizer = 'SGD'
+optimizer = 'Adam'
 model_info_save = {
     'policy_lr': policy_lr,
     'value_lr': value_lr,
