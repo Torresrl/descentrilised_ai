@@ -7,7 +7,7 @@
 #SBATCH --mem=16000
 ##SBATCH --ntasks-per-node=1
 ##SBATCH --exclusive
-#SBATCH --job-name="SGD value lr e-3"
+#SBATCH --job-name="experimenting with policy learning at 0.1"
 #SBATCH --output=test-srun.out
 #SBATCH --mail-user=torresrl@stud.ntnu.no
 #SBATCH --mail-type=ALL
