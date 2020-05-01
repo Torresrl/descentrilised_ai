@@ -481,7 +481,7 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 
 
 policy_lr = 1e-1
-value_lr = 1e-3 #-2
+value_lr = 1e-5 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -554,7 +554,7 @@ class value_model:
         _ = Dense(256, activation=ACTI)(inputes)
         _ = Dense(1024, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        #_ = Dense(128, activation=ACTI)(_)
+        _ = Dense(1024, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(64, activation=ACTI)(_)
         out_1 = Dense(1)(_)
