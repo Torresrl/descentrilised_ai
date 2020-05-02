@@ -480,8 +480,8 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 1e-2
-value_lr = 1e-3 #-2
+policy_lr = 1e-4
+value_lr = 1e-4 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -748,7 +748,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 TEST_ROUNDS = 40
 REDUCED_LIST = False
 gamma = 1
-box_size = 10 #2
+box_size = 3 #2
 value_func = value_model(box_size, policy_lr, policy_clip)
 policy_mod = policy_model(box_size, value_lr, value_clip)
 
@@ -848,7 +848,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/policy_two_value_two/policy_gradient_{optimizer}_{policy_lr}_{np.array(total_reward).mean()}.json'
+file_save_path_name = f'pg_ressults/policy_two_value_two/pg_{optimizer}_{policy_lr}_val_{value_lr}_{TEST_ROUNDS}_{np.array(total_reward).mean()}.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
