@@ -745,10 +745,10 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 # In[11]:
 
 
-TEST_ROUNDS = 40
+TEST_ROUNDS = 3
 REDUCED_LIST = False
 gamma = 1
-box_size = 3 #2
+box_size = 10 #2
 value_func = value_model(box_size, policy_lr, policy_clip)
 policy_mod = policy_model(box_size, value_lr, value_clip)
 
