@@ -480,8 +480,8 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 1e-1
-value_lr = 1e-5 #-2
+policy_lr = 1e-3
+value_lr = 1e-1 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -503,7 +503,7 @@ class policy_model:
         _ = Dense(1024, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        #_ = Dense(256, activation=ACTI)(_)
+        _ = Dense(1024, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(128, activation=ACTI)(_)
         out_1 = Dense(innput_size, activation='softmax')(_)
@@ -848,7 +848,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/policy_gradient_{optimizer}_{policy_lr}_{np.array(total_reward).mean()}.json'
+file_save_path_name = f'pg_ressults/policy_two_value_two/policy_gradient_{optimizer}_{policy_lr}_{np.array(total_reward).mean()}.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
