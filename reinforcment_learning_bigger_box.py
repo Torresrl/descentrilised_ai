@@ -481,7 +481,7 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 
 
 policy_lr = 1e-3
-value_lr = 1e-3 #-2
+value_lr = 1e-5 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -500,10 +500,10 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(256, activation=ACTI)(inputes) #512
+        _ = Dense(512, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(256, activation=ACTI)(_)
+        _ = Dense(512, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(128, activation=ACTI)(_)
         out_1 = Dense(innput_size, activation='softmax')(_)
@@ -518,7 +518,7 @@ class policy_model:
         def custom_loss(y_true, y_pred, adv):
             log_lik =  K.log(y_true * (y_true- y_pred) + (1 - y_true) * (y_true + y_pred))
             loss = 1 / (-K.mean(log_lik * adv, keepdims=True))
-            return K.clip(loss, -5, 5)
+            return K.clip(loss, -1, 1)
             #return loss
 
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
@@ -551,10 +551,10 @@ class value_model:
         value_clip = value_clip
 
         inputes = Input(shape=(innput_size*4,)) #dtype=float64
-        _ = Dense(256, activation=ACTI)(inputes)
+        _ = Dense(512, activation=ACTI)(inputes)
         #_ = Dense(2048, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(256, activation=ACTI)(_)
+        _ = Dense(512, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(64, activation=ACTI)(_)
         out_1 = Dense(1)(_)
@@ -745,7 +745,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 # In[11]:
 
 
-TEST_ROUNDS = 40
+TEST_ROUNDS = 5
 REDUCED_LIST = False
 gamma = 0.99
 box_size = 10 #2
@@ -848,7 +848,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/testing_network_size/pg_{optimizer}_{policy_lr}_val_{value_lr}_{TEST_ROUNDS}_{np.array(total_reward).mean()}.json'
+file_save_path_name = f'pg_ressults/lower_clip/pg_{optimizer}_{policy_lr}_val_{value_lr}_{TEST_ROUNDS}_{np.array(total_reward).mean()}.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
