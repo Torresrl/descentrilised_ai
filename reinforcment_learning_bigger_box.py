@@ -480,8 +480,8 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 1e-20
-value_lr = 1e-20 #-2
+policy_lr = 1e-2
+value_lr = 1e-2 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -745,7 +745,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 # In[11]:
 
 
-TEST_ROUNDS = 5
+TEST_ROUNDS = 40
 REDUCED_LIST = False
 gamma = 0.99
 box_size = 10 #2
