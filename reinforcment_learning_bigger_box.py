@@ -517,7 +517,7 @@ class policy_model:
 
         def custom_loss(y_true, y_pred, adv):
             log_lik =  K.log(y_true * (y_true- y_pred) + (1 - y_true) * (y_true + y_pred))
-            loss = 1 / (-K.mean(log_lik * adv, keepdims=True))
+            loss = 1 / (K.mean(log_lik * adv, keepdims=True))#removed was (-K.mean....)
             return K.clip(loss, -15, 15)
             #return loss
 
@@ -848,7 +848,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/clip_20/pg_{optimizer}_{policy_lr}_val_{value_lr}_{TEST_ROUNDS}_{np.array(total_reward).mean()}.json'
+file_save_path_name = f'pg_ressults/neg_reward/pg_{optimizer}_{policy_lr}_val_{value_lr}_{TEST_ROUNDS}_{np.array(total_reward).mean()}.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
