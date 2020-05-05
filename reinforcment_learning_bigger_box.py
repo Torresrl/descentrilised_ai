@@ -480,7 +480,7 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 1e-4
+policy_lr = 1e-3
 value_lr = 1e-4 #-2
 
 policy_clip = 3
@@ -503,7 +503,7 @@ class policy_model:
         _ = Dense(1024, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(1024, activation=ACTI)(_)
+        #_ = Dense(1024, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(128, activation=ACTI)(_)
         out_1 = Dense(innput_size, activation='softmax')(_)
