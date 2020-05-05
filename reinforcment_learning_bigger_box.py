@@ -518,7 +518,7 @@ class policy_model:
         def custom_loss(y_true, y_pred, adv):
             log_lik =  K.log(y_true * (y_true- y_pred) + (1 - y_true) * (y_true + y_pred))
             loss = 1 / (K.mean(log_lik * adv, keepdims=True))#removed was (-K.mean....)
-            return K.clip(loss, -15, 15)
+            return K.clip(loss, -20, 20)
             #return loss
 
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
@@ -745,7 +745,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 # In[11]:
 
 
-TEST_ROUNDS = 10
+TEST_ROUNDS = 5
 REDUCED_LIST = False
 gamma = 0.99
 box_size = 10 #2
