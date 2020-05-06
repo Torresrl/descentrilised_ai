@@ -745,7 +745,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 # In[11]:
 
 
-TEST_ROUNDS = 10
+TEST_ROUNDS = 40
 REDUCED_LIST = False
 gamma = 0.99
 box_size = 5 #2
