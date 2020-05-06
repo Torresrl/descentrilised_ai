@@ -500,7 +500,7 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(2048, activation=ACTI)(inputes) #512
+        _ = Dense(1024, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(1024, activation=ACTI)(_)
@@ -745,7 +745,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 # In[11]:
 
 
-TEST_ROUNDS = 40
+TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 0.99
 box_size = 5 #2
