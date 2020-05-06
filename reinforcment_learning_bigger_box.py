@@ -481,7 +481,7 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 
 
 policy_lr = 1e-2
-value_lr = 1e-2 #-2
+value_lr = 1e-3 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -500,7 +500,7 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(1024, activation=ACTI)(inputes) #512
+        _ = Dense(2048, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(1024, activation=ACTI)(_)
@@ -518,7 +518,7 @@ class policy_model:
         def custom_loss(y_true, y_pred, adv):
             log_lik =  K.log(y_true * (y_true- y_pred) + (1 - y_true) * (y_true + y_pred))
             loss = 1 / (-K.mean(log_lik * adv, keepdims=True))#removed was (-K.mean....)
-            return K.clip(loss, -30, 30)
+            return K.clip(loss, -50, 50)
             #return loss
 
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
