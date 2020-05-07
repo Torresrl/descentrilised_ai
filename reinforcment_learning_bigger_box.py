@@ -480,8 +480,8 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 1e-2
-value_lr = 1e-3 #-2
+policy_lr = 1e-3
+value_lr = 1e-2 #-2
 
 policy_clip = 3
 value_clip = 3
