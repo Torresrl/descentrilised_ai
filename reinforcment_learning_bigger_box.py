@@ -480,13 +480,13 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 1e-3
-value_lr = 1e-2 #-2
+policy_lr = 1e-2
+value_lr = 1e-3 #-2
 
 policy_clip = 3
 value_clip = 3
 
-reward_exponential = 3
+reward_exponential = 2
 reward_multi = 10
 
 #tar in state og retunere action
@@ -551,10 +551,10 @@ class value_model:
         value_clip = value_clip
 
         inputes = Input(shape=(innput_size*4,)) #dtype=float64
-        _ = Dense(1024, activation=ACTI)(inputes)
+        _ = Dense(512, activation=ACTI)(inputes)
         #_ = Dense(2048, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(1024, activation=ACTI)(_)
+        _ = Dense(512, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(64, activation=ACTI)(_)
         out_1 = Dense(1)(_)
@@ -747,7 +747,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 
 TEST_ROUNDS = 10
 REDUCED_LIST = False
-gamma = 0.99
+gamma = 1
 box_size = 5 #2
 value_func = value_model(box_size, policy_lr, policy_clip)
 policy_mod = policy_model(box_size, value_lr, value_clip)
