@@ -486,7 +486,7 @@ value_lr = 1e-3 #-2
 policy_clip = 3
 value_clip = 3
 
-reward_exponential = 2
+reward_exponential = 3
 reward_multi = 10
 
 #tar in state og retunere action
@@ -848,7 +848,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/box_5_batch_10/pg_{optimizer}_{policy_lr}_val_{value_lr}_{TEST_ROUNDS}_{np.array(total_reward).mean()}.json'
+file_save_path_name = f'pg_ressults/try_to_find_base/val_512{np.array(total_reward).mean()}.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
