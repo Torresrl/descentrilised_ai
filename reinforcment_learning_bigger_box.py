@@ -480,7 +480,7 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 1e-2
+policy_lr = 1e-4
 value_lr = 1e-3 #-2
 
 policy_clip = 3
@@ -500,7 +500,7 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(256, activation=ACTI)(inputes) #512
+        _ = Dense(128, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(1024, activation=ACTI)(_)
@@ -746,7 +746,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 
 
 TEST_ROUNDS = 10
-REDUCED_LIST = False
+REDUCED_LIST = True
 gamma = 1
 box_size = 5 #2
 value_func = value_model(box_size, policy_lr, policy_clip)
@@ -758,7 +758,7 @@ index_list = range(0, len(img_val_list))
 num_trials = len(index_list) // TEST_ROUNDS
 
 if REDUCED_LIST:
-    key_list_remove = list(model_info.keys())[100:]
+    key_list_remove = list(model_info.keys())[50:]
     for key in key_list_remove:
         del model_info[key]
         key_list_remove = list(model_info.keys())
@@ -848,7 +848,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/try_to_find_base/new_2_val_64_pg_256_lr_clip_20{np.array(total_reward).mean()}.json'
+file_save_path_name = f'pg_ressults/try_to_find_base/size_50.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
