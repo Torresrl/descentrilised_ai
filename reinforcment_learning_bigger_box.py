@@ -487,7 +487,7 @@ policy_clip = 3
 value_clip = 3
 
 reward_exponential = 3
-reward_multi = 10
+reward_multi = 13
 
 #tar in state og retunere action
 class policy_model:
@@ -500,7 +500,7 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(1024, activation=ACTI)(inputes) #512
+        _ = Dense(128, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(1024, activation=ACTI)(_)
@@ -551,10 +551,10 @@ class value_model:
         value_clip = value_clip
 
         inputes = Input(shape=(innput_size*4,)) #dtype=float64
-        _ = Dense(128, activation=ACTI)(inputes)
+        _ = Dense(64, activation=ACTI)(inputes)
         #_ = Dense(2048, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(128, activation=ACTI)(_)
+        _ = Dense(64, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(64, activation=ACTI)(_)
         out_1 = Dense(1)(_)
@@ -848,7 +848,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/try_to_find_base/val_128_pg_1024_lr_neg{np.array(total_reward).mean()}.json'
+file_save_path_name = f'pg_ressults/try_to_find_base/new_val_64_pg_128_lr_neg{np.array(total_reward).mean()}.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
