@@ -518,7 +518,7 @@ class policy_model:
         def custom_loss(y_true, y_pred, adv):
             log_lik =  K.log(y_true * (y_true- y_pred) + (1 - y_true) * (y_true + y_pred))
             loss = 1 / (-K.mean(log_lik * adv, keepdims=True))#removed was (-K.mean....)
-            return K.clip(loss, -20, 20)
+            return K.clip(loss, -0.5, 0.5)
             #return loss
 
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
@@ -758,7 +758,7 @@ index_list = range(0, len(img_val_list))
 num_trials = len(index_list) // TEST_ROUNDS
 
 if REDUCED_LIST:
-    key_list_remove = list(model_info.keys())[50:]
+    key_list_remove = list(model_info.keys())[200:]
     for key in key_list_remove:
         del model_info[key]
         key_list_remove = list(model_info.keys())
@@ -848,7 +848,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/try_to_find_base/size_50.json'
+file_save_path_name = f'pg_ressults/network_size/size_200.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
