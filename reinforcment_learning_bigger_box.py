@@ -758,7 +758,7 @@ index_list = range(0, len(img_val_list))
 num_trials = len(index_list) // TEST_ROUNDS
 
 if REDUCED_LIST:
-    key_list_remove = list(model_info.keys())[200:]
+    key_list_remove = list(model_info.keys())[300:]
     for key in key_list_remove:
         del model_info[key]
         key_list_remove = list(model_info.keys())
@@ -848,7 +848,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/network_size/size_200.json'
+file_save_path_name = f'pg_ressults/network_size/size_300.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
