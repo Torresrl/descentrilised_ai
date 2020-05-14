@@ -775,7 +775,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 
 TEST_ROUNDS = 10
 REDUCED_LIST = False
-GROWING_RATE = 0.5
+GROWING_RATE = 100
 NETWORK_START_SIZE = 10
 gamma = 1
 box_size = 5 #2
@@ -783,7 +783,7 @@ value_func = value_model(box_size, policy_lr, policy_clip)
 policy_mod = policy_model(box_size, value_lr, value_clip)
 
 num_models = len(list(model_info.keys()))
-index_list = range(1800, len(img_val_list))
+index_list = range(0, len(img_val_list))
 num_trials = len(index_list) #// TEST_ROUNDS
 
 
@@ -970,7 +970,7 @@ value_loss = np.array(value_loss_list).ravel()
 
 optimizer = 'Adam'
 model_info_save = {
-    'network_start_size': 10,
+    'network_start_size': NETWORK_START_SIZE,
     'growing_rate': GROWING_RATE,
     'policy_lr': policy_lr,
     'value_lr': value_lr,
@@ -997,7 +997,7 @@ model_info_save = {
 #GROWING_RATE = 0.5
 #NETWORK_START_SIZE = 10
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/policy_gradient_{optimizer}_{policy_lr}_{np.array(total_reward).mean()}.json'
+file_save_path_name = f'pg_ressults_growing/growing_{GROWING_RATE}_start_amount_{NETWORK_START_SIZE}.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
