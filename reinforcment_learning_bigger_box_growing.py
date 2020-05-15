@@ -775,7 +775,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 
 TEST_ROUNDS = 10
 REDUCED_LIST = False
-GROWING_RATE = 0.5
+GROWING_RATE =50
 NETWORK_START_SIZE = 10
 gamma = 1
 box_size = 5 #2
