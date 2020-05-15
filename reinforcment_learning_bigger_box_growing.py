@@ -225,7 +225,7 @@ def model_generator(models, start_amount, step_size):
             if len(keys_not_used) > 0:
                 new_key = keys_not_used.pop()
                 models_in_use[new_key] = models[new_key]
-        
+
 
         yield models_in_use
 
