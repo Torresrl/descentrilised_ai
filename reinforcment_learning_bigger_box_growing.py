@@ -48,7 +48,7 @@ from imgaug.augmentables.segmaps import SegmentationMapsOnImage
 from tensorflow.compat.v1.keras.backend import set_session
 config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
-config.gpu_options.per_process_gpu_memory_fraction = 0.70
+config.gpu_options.per_process_gpu_memory_fraction = 0.99
 config.log_device_placement = True  # to log device placement (on which device the operation ran)
 sess = tf.compat.v1.Session(config=config)
 set_session(sess)
@@ -225,7 +225,7 @@ def model_generator(models, start_amount, step_size):
             if len(keys_not_used) > 0:
                 new_key = keys_not_used.pop()
                 models_in_use[new_key] = models[new_key]
-        step = 0
+        
 
         yield models_in_use
 
@@ -513,8 +513,8 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[133]:
 
 
-policy_lr = 1e-3
-value_lr = 1e-4 #-2
+policy_lr = 1e-4
+value_lr = 1e-3 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -775,7 +775,7 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 
 TEST_ROUNDS = 10
 REDUCED_LIST = False
-GROWING_RATE = 100
+GROWING_RATE = 0.5
 NETWORK_START_SIZE = 10
 gamma = 1
 box_size = 5 #2
