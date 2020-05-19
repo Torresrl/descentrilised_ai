@@ -481,7 +481,7 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 
 
 policy_lr = 1e-4
-value_lr = 1e-3 #-2
+value_lr = 1e-4 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -788,7 +788,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 2
+REUSE = 4
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
@@ -914,7 +914,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults_reuse/reuse_{REUSE}.json'
+file_save_path_name = f'pg_ressults_reuse/reuse_{REUSE}_changed_value.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
