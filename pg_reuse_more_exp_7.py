@@ -788,7 +788,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 3
+REUSE = 2
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
