@@ -788,7 +788,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 2
+REUSE = 3
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
@@ -796,7 +796,7 @@ policy_mod = policy_model(box_size, value_lr, value_clip)
 
 
 num_models = len(list(model_info.keys()))
-index_list = range(1500, len(img_val_list))
+index_list = range(0, len(img_val_list))
 num_trials = len(index_list) #// TEST_ROUNDS
 
 
@@ -914,7 +914,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/reuse_testing_{optimizer}_{policy_lr}_{np.array(total_reward).mean()}.json'
+file_save_path_name = f'pg_ressults_reuse/reuse_{REUSE}.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
