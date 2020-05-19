@@ -34,4 +34,4 @@ module load iccifort/2019.5.281
 module load impi/2018.5.288
 module load matplotlib/3.1.1-Python-3.7.4
 
-python3 reinforcment_learning_bigger_box_growing.py 
+python3 pg_reuse_more_exp_7.py 
