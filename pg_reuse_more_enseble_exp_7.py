@@ -579,7 +579,7 @@ class value_model:
         _ = Dense(64, activation=ACTI)(_)
         out_1 = Dense(1)(_)
         #sgd = SGD(lr=1e-3) #5
-        adam = Adam(lr=value_lr, clipvalue=5) # -3 workes
+        adam = Adam(lr=value_lr, clipvalue=0.5) # -3 workes
 
         self.model = Model(inputs=[inputes], outputs=[out_1])
         self.model.compile(optimizer=adam, loss='mean_squared_error')
@@ -790,7 +790,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 4
+REUSE = 2
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
