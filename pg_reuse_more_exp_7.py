@@ -47,7 +47,7 @@ from imgaug.augmentables.segmaps import SegmentationMapsOnImage
 from tensorflow.compat.v1.keras.backend import set_session
 config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
-config.gpu_options.per_process_gpu_memory_fraction = 0.70
+config.gpu_options.per_process_gpu_memory_fraction = 0.95
 config.log_device_placement = True  # to log device placement (on which device the operation ran)
 sess = tf.compat.v1.Session(config=config)
 set_session(sess)
@@ -481,7 +481,7 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 
 
 policy_lr = 1e-4
-value_lr = 5e-4 #-2
+value_lr = 3e-4 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -518,7 +518,7 @@ class policy_model:
         def custom_loss(y_true, y_pred, adv):
             log_lik =  K.log(y_true * (y_true- y_pred) + (1 - y_true) * (y_true + y_pred))
             loss = 1 / (-K.mean(log_lik * adv, keepdims=True))
-            return K.clip(loss, -5, 5)
+            return K.clip(loss, -0.3, 0.3)
             #return loss
 
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
@@ -788,7 +788,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 2
+REUSE = 4
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
