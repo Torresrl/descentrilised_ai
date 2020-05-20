@@ -11,4 +11,4 @@ module load impi/2018.5.288
 module load matplotlib/3.1.1-Python-3.7.4
 
 ##execute python file
-python3 pg_reuse_more_exp_7.py  
+python3 pg_reuse_more_enseble_exp_7.py  
