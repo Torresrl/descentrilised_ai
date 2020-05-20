@@ -500,8 +500,8 @@ def try_model(keys, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 1e-4
-value_lr = 5e-4 #-2
+policy_lr = 2e-4
+value_lr = 3e-4 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -790,7 +790,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 2
+REUSE = 4
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
