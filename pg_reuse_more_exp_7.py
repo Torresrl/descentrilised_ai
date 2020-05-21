@@ -481,7 +481,7 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 
 
 policy_lr = 1e-4
-value_lr = 5e-4 #-2
+value_lr = 1e-3 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -518,7 +518,7 @@ class policy_model:
         def custom_loss(y_true, y_pred, adv):
             log_lik =  K.log(y_true * (y_true- y_pred) + (1 - y_true) * (y_true + y_pred))
             loss = 1 / (-K.mean(log_lik * adv, keepdims=True))
-            return K.clip(loss, -0.3, 0.3)
+            return K.clip(loss, -0.5, 0.5)
             #return loss
 
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
@@ -551,12 +551,12 @@ class value_model:
         value_clip = value_clip
 
         inputes = Input(shape=(innput_size*4,)) #dtype=float64
-        _ = Dense(124, activation=ACTI)(inputes)
+        _ = Dense(256, activation=ACTI)(inputes)
         #_ = Dense(256, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(124, activation=ACTI)(_)
+        _ = Dense(256, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(64, activation=ACTI)(_)
+        _ = Dense(128, activation=ACTI)(_)
         out_1 = Dense(1)(_)
         #sgd = SGD(lr=1e-3) #5
         adam = Adam(lr=value_lr, clipvalue=5) # -3 workes
@@ -788,7 +788,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 4
+REUSE = 2
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
@@ -914,7 +914,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults_reuse/reuse_{REUSE}_more nodes.json'
+file_save_path_name = f'pg_ressults_reuse/reuse_{REUSE}_more_nodes_two.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
