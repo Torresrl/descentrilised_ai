@@ -500,8 +500,8 @@ def try_model(keys, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 2e-4
-value_lr = 3e-4 #-2
+policy_lr = 1e-4
+value_lr = 5e-4 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -571,12 +571,12 @@ class value_model:
         value_clip = value_clip
 
         inputes = Input(shape=(innput_size*4,)) #dtype=float64
-        _ = Dense(64, activation=ACTI)(inputes)
+        _ = Dense(128, activation=ACTI)(inputes)
         #_ = Dense(256, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(64, activation=ACTI)(_)
+        _ = Dense(128, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(64, activation=ACTI)(_)
+        _ = Dense(128, activation=ACTI)(_)
         out_1 = Dense(1)(_)
         #sgd = SGD(lr=1e-3) #5
         adam = Adam(lr=value_lr, clipvalue=0.5) # -3 workes
@@ -790,7 +790,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 2
+REUSE = 4
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
@@ -889,7 +889,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'enseble_ressults/ensemble_{REUSE}.json'
+file_save_path_name = f'enseble_ressults/ensemble_{REUSE}_more_nodes.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
