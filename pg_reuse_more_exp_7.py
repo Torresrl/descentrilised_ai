@@ -500,10 +500,10 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(128, activation=ACTI)(inputes) #512
+        _ = Dense(16, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        #_ = Dense(256, activation=ACTI)(_)
+        _ = Dense(16, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(128, activation=ACTI)(_)
         out_1 = Dense(innput_size, activation='softmax')(_)
@@ -551,12 +551,12 @@ class value_model:
         value_clip = value_clip
 
         inputes = Input(shape=(innput_size*4,)) #dtype=float64
-        _ = Dense(256, activation=ACTI)(inputes)
+        _ = Dense(128, activation=ACTI)(inputes)
         #_ = Dense(256, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(256, activation=ACTI)(_)
-        #_ = Dropout(0.1)(_)
         _ = Dense(128, activation=ACTI)(_)
+        #_ = Dropout(0.1)(_)
+        _ = Dense(64, activation=ACTI)(_)
         out_1 = Dense(1)(_)
         #sgd = SGD(lr=1e-3) #5
         adam = Adam(lr=value_lr, clipvalue=5) # -3 workes
@@ -788,7 +788,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 4
+REUSE = 2
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
@@ -914,7 +914,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults_reuse/reuse_{REUSE}_more_nodes_two.json'
+file_save_path_name = f'pg_ressults_reuse/reuse_{REUSE}_less_nodes_more_layers.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
