@@ -788,7 +788,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 2
+REUSE = 3
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
@@ -824,7 +824,7 @@ key_list = list(model_info.keys())
 hist_keys = random.sample(key_list, REUSE)
 
 # run bandit thought validation
-for i in range(0, len(index_list), TEST_ROUNDS):
+for i in range(0, len(index_list) * 2, TEST_ROUNDS):
 
     new_hist_keys, reward, policy_loss, value_loss, pixel_s, iou_s, mean, std = play_one_episode(hist_keys, gen, model_info, value_func, policy_mod, gamma, i ,box_size,TEST_ROUNDS, REUSE)
     hist_keys = new_hist_keys
@@ -914,7 +914,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults_reuse/reuse_{REUSE}_less_nodes_more_layers.json'
+file_save_path_name = f'pg_ressults_reuse/reuse_{REUSE}_less_nodes_more_layers_more_training.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
