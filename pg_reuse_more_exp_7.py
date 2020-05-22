@@ -480,8 +480,8 @@ def try_model(key, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 5e-5
-value_lr = 5e-4 #-2
+policy_lr = 1e-5
+value_lr = 1e-4 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -500,10 +500,10 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(16, activation=ACTI)(inputes) #512
+        _ = Dense(64, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        _ = Dense(16, activation=ACTI)(_)
+        #_ = Dense(16, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(128, activation=ACTI)(_)
         out_1 = Dense(innput_size, activation='softmax')(_)
@@ -524,7 +524,7 @@ class policy_model:
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
         self.policy = Model(inputs=[inputes, actions_true, advantages], outputs=[out_1])
         self.policy.add_loss(custom_loss(actions_true, out_1, advantages))
-        self.policy.compile(optimizer=Adam(lr=policy_lr)) # -3, -2 give NaN if value is -4, 8e-3
+        self.policy.compile(optimizer=SGD(lr=policy_lr)) # -3, -2 give NaN if value is -4, 8e-3
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss='mean_squared_error')
         #self.policy.compile(optimizer=Adam(lr=1e-1), loss='mean_squared_error')
         self.prediction = Model(inputs=inputes, outputs=[out_1])
@@ -551,7 +551,7 @@ class value_model:
         value_clip = value_clip
 
         inputes = Input(shape=(innput_size*4,)) #dtype=float64
-        _ = Dense(128, activation=ACTI)(inputes)
+        _ = Dense(64, activation=ACTI)(inputes)
         #_ = Dense(256, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         _ = Dense(128, activation=ACTI)(_)
@@ -559,7 +559,7 @@ class value_model:
         _ = Dense(64, activation=ACTI)(_)
         out_1 = Dense(1)(_)
         #sgd = SGD(lr=1e-3) #5
-        adam = Adam(lr=value_lr, clipvalue=5) # -3 workes
+        adam = SGD(lr=value_lr, clipvalue=5) # -3 workes
 
         self.model = Model(inputs=[inputes], outputs=[out_1])
         self.model.compile(optimizer=adam, loss='mean_squared_error')
@@ -788,7 +788,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 3
+REUSE = 2
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
@@ -822,9 +822,11 @@ std_list = []
 total_reward = []
 key_list = list(model_info.keys())
 hist_keys = random.sample(key_list, REUSE)
+num_triales = len(index_list) * 2
+
 
 # run bandit thought validation
-for i in range(0, len(index_list) * 2, TEST_ROUNDS):
+for i in range(0, num_triales, TEST_ROUNDS):
 
     new_hist_keys, reward, policy_loss, value_loss, pixel_s, iou_s, mean, std = play_one_episode(hist_keys, gen, model_info, value_func, policy_mod, gamma, i ,box_size,TEST_ROUNDS, REUSE)
     hist_keys = new_hist_keys
@@ -906,7 +908,7 @@ model_info_save = {
     'value_loss': value_loss_list,
     'optimizer': optimizer,
     'num_models': num_models,
-    'num_trials': len(index_list),
+    'num_trials': num_triales,
     'iou_scores': iou_score_list,
     'pixel_scores': pixel_score_list,
     'mean_values': mean_list,
@@ -914,7 +916,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults_reuse/reuse_{REUSE}_less_nodes_more_layers_more_training.json'
+file_save_path_name = f'pg_ressults_reuse/SGD_reuse_{REUSE}.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file

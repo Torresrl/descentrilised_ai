@@ -790,7 +790,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 4
+REUSE = 2
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
@@ -799,7 +799,7 @@ policy_mod = policy_model(box_size, value_lr, value_clip)
 
 num_models = len(list(model_info.keys()))
 index_list = range(0, len(img_val_list))
-num_trials = len(index_list) #// TEST_ROUNDS
+num_trials = len(index_list)*2 #// TEST_ROUNDS
 
 
 # In[12]:
@@ -826,7 +826,7 @@ key_list = list(model_info.keys())
 hist_keys = random.sample(key_list, REUSE)
 
 # run bandit thought validation
-for i in range(0, len(index_list), TEST_ROUNDS):
+for i in range(0, num_trials, TEST_ROUNDS):
 
     new_hist_keys, reward, policy_loss, value_loss, pixel_s, iou_s, mean, std = play_one_episode(hist_keys, gen, model_info, value_func, policy_mod, gamma, i ,box_size,TEST_ROUNDS, REUSE)
     hist_keys = new_hist_keys
@@ -881,7 +881,7 @@ model_info_save = {
     'value_loss': value_loss_list,
     'optimizer': optimizer,
     'num_models': num_models,
-    'num_trials': len(index_list),
+    'num_trials': num_trials,
     'iou_scores': iou_score_list,
     'pixel_scores': pixel_score_list,
     'mean_values': mean_list,
