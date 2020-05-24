@@ -538,7 +538,7 @@ class policy_model:
         def custom_loss(y_true, y_pred, adv):
             log_lik =  K.log(y_true * (y_true- y_pred) + (1 - y_true) * (y_true + y_pred))
             loss = 1 / (-K.mean(log_lik * adv, keepdims=True))
-            return K.clip(loss, 0, 0.3)
+            return K.clip(loss, -0.3, 0.3)
             #return loss
 
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
@@ -790,7 +790,7 @@ TEST_ROUNDS = 10
 REDUCED_LIST = False
 gamma = 1
 box_size = 5 #2
-REUSE = 4
+REUSE = 3
 
 
 value_func = value_model(box_size, policy_lr, policy_clip)
@@ -889,7 +889,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'enseble_ressults/a_clip_zero_ensemble_{REUSE}_more_nodes.json'
+file_save_path_name = f'enseble_ressults/a_ensemble_{REUSE}_64_nodes.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
