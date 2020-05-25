@@ -889,7 +889,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'enseble_ressults/a_ensemble_{REUSE}_64_nodes.json'
+file_save_path_name = f'enseble_ressults/ab_ensemble_{REUSE}_64_nodes.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
