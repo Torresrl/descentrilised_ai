@@ -520,7 +520,7 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(32, activation=ACTI)(inputes) #512
+        _ = Dense(128, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(16, activation=ACTI)(_)
@@ -889,7 +889,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'enseble_ressults/b_batch_5_ensemble_{REUSE}_32_4_nodes_lower_lr.json'
+file_save_path_name = f'enseble_ressults/c_batch_10_ensemble_{REUSE}_128_true_3_nodes_lower_lr.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
