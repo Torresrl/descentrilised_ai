@@ -520,7 +520,7 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(128, activation=ACTI)(inputes) #512
+        _ = Dense(64, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(16, activation=ACTI)(_)
@@ -789,7 +789,7 @@ def play_one_episode(hist_keys, data_generator, model_info, value_fuction, polic
 TEST_ROUNDS = 5
 REDUCED_LIST = False
 gamma = 1
-box_size = 5 #2
+box_size = 10 #2
 REUSE = 3
 
 
@@ -889,7 +889,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'enseble_ressults/c_batch_10_ensemble_{REUSE}_128_true_3_nodes_lower_lr.json'
+file_save_path_name = f'enseble_ressults/c_batch_10_ensemble_{REUSE}_64_3_nodes_lower_lr.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
