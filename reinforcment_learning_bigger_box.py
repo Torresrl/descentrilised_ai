@@ -20,7 +20,7 @@ import copy
 
 import pandas as pd
 import numpy as np
-np.random.bit_generator = np.random._bit_generator
+
 
 from tensorflow.keras.preprocessing import image
 from tensorflow import keras
@@ -47,7 +47,7 @@ from imgaug.augmentables.segmaps import SegmentationMapsOnImage
 from tensorflow.compat.v1.keras.backend import set_session
 config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True  # dynamically grow the memory used on the GPU
-config.gpu_options.per_process_gpu_memory_fraction = 0.70
+config.gpu_options.per_process_gpu_memory_fraction = 0.95
 config.log_device_placement = True  # to log device placement (on which device the operation ran)
 sess = tf.compat.v1.Session(config=config)
 set_session(sess)
@@ -486,8 +486,8 @@ value_lr = 1e-3 #-2
 policy_clip = 3
 value_clip = 3
 
-reward_exponential = 10
-reward_multi = 10
+reward_exponential = 3
+reward_multi = 13
 
 #tar in state og retunere action
 class policy_model:
@@ -500,10 +500,10 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(512, activation=ACTI)(inputes) #512
+        _ = Dense(128, activation=ACTI)(inputes) #512
         #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
-        #_ = Dense(256, activation=ACTI)(_)
+        #_ = Dense(1024, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(128, activation=ACTI)(_)
         out_1 = Dense(innput_size, activation='softmax')(_)
@@ -517,8 +517,8 @@ class policy_model:
 
         def custom_loss(y_true, y_pred, adv):
             log_lik =  K.log(y_true * (y_true- y_pred) + (1 - y_true) * (y_true + y_pred))
-            loss = 1 / (-K.mean(log_lik * adv, keepdims=True))
-            return K.clip(loss, -5, 5)
+            loss = 1 / (-K.mean(log_lik * adv, keepdims=True))#removed was (-K.mean....)
+            return K.clip(loss, -0.5, 0.5)
             #return loss
 
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
@@ -551,12 +551,12 @@ class value_model:
         value_clip = value_clip
 
         inputes = Input(shape=(innput_size*4,)) #dtype=float64
-        _ = Dense(256, activation=ACTI)(inputes)
-        _ = Dense(256, activation=ACTI)(_)
-        #_ = Dropout(0.1)(_)
-        _ = Dense(128, activation=ACTI)(_)
+        _ = Dense(64, activation=ACTI)(inputes)
+        #_ = Dense(2048, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         _ = Dense(64, activation=ACTI)(_)
+        #_ = Dropout(0.1)(_)
+        #_ = Dense(64, activation=ACTI)(_)
         out_1 = Dense(1)(_)
         #sgd = SGD(lr=1e-3) #5
         adam = Adam(lr=value_lr, clipvalue=5) # -3 workes
@@ -748,17 +748,17 @@ def play_one_episode(hist_key, data_generator, model_info, value_fuction, policy
 TEST_ROUNDS = 10
 REDUCED_LIST = True
 gamma = 1
-box_size = 10 #2
+box_size = 5 #2
 value_func = value_model(box_size, policy_lr, policy_clip)
 policy_mod = policy_model(box_size, value_lr, value_clip)
 
 
 num_models = len(list(model_info.keys()))
-index_list = range(1_000, len(img_val_list))
+index_list = range(0, len(img_val_list))
 num_trials = len(index_list) // TEST_ROUNDS
 
 if REDUCED_LIST:
-    key_list_remove = list(model_info.keys())[100:]
+    key_list_remove = list(model_info.keys())[300:]
     for key in key_list_remove:
         del model_info[key]
         key_list_remove = list(model_info.keys())
@@ -848,7 +848,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'pg_ressults/policy_gradient_{optimizer}_{policy_lr}_{np.array(total_reward).mean()}.json'
+file_save_path_name = f'pg_ressults/network_size/size_300.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
