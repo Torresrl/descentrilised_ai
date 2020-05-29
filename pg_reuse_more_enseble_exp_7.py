@@ -500,8 +500,8 @@ def try_model(keys, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 5e-5
-value_lr = 5e-4 #-2
+policy_lr = 1e-5
+value_lr = 1e-4 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -521,7 +521,7 @@ class policy_model:
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
         _ = Dense(128, activation=ACTI)(inputes) #512
-        #_ = Dense(32, activation=ACTI)(_)
+        _ = Dense(128, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(16, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
@@ -799,7 +799,7 @@ policy_mod = policy_model(box_size, value_lr, value_clip)
 
 num_models = len(list(model_info.keys()))
 index_list = range(0, len(img_val_list))
-num_trials = len(index_list)*2 #// TEST_ROUNDS
+num_trials = len(index_list) #// TEST_ROUNDS
 
 
 # In[12]:
@@ -889,7 +889,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'enseble_ressults/d_batch_10_ensemble_{REUSE}_128_3_nodes_lower_lr.json'
+file_save_path_name = f'enseble_ressults/d_batch_10_ensemble_{REUSE}_128_3_nodes_lower_lr_pg_two_layer.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
