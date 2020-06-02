@@ -501,7 +501,7 @@ def try_model(keys, imgs, labels, model_info, round_nr, lower_bound=True):
 
 
 policy_lr = 5e-5
-value_lr = 2e-4 #-2
+value_lr = 1e-3 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -889,7 +889,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'enseble_ressults/g_batch_{TEST_ROUNDS}_ensemble_{REUSE}_value_lr_{value_lr}_128_4.json'
+file_save_path_name = f'enseble_ressults/h_batch_{TEST_ROUNDS}_ensemble_{REUSE}_value_lr_{value_lr}_128_3.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
