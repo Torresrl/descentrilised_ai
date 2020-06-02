@@ -500,8 +500,8 @@ def try_model(keys, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 1e-6
-value_lr = 1e-5 #-2
+policy_lr = 5e-5
+value_lr = 5e-4 #-2
 
 policy_clip = 3
 value_clip = 3
@@ -520,8 +520,8 @@ class policy_model:
         inputes = Input(shape=(innput_size*4,))
         actions_true = Input(shape=[innput_size], name='actions_true')
         advantages = Input(shape=[1], name='advantages')
-        _ = Dense(32, activation=ACTI)(inputes) #512
-        _ = Dense(32, activation=ACTI)(_)
+        _ = Dense(254, activation=ACTI)(inputes) #512
+        #_ = Dense(32, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
         #_ = Dense(16, activation=ACTI)(_)
         #_ = Dropout(0.1)(_)
@@ -538,7 +538,7 @@ class policy_model:
         def custom_loss(y_true, y_pred, adv):
             log_lik =  K.log(y_true * (y_true- y_pred) + (1 - y_true) * (y_true + y_pred))
             loss = 1 / (-K.mean(log_lik * adv, keepdims=True))
-            return K.clip(loss, -0.3, 0.3)
+            return K.clip(loss, -0.2, 0.2)
             #return loss
 
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
@@ -889,7 +889,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'enseble_ressults/e_batch_10_ensemble_{REUSE}_32_3_low_lr_nodes_pg_two_layer.json'
+file_save_path_name = f'enseble_ressults/f_batch_{TEST_ROUNDS}_ensemble_{REUSE}_254_3.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
