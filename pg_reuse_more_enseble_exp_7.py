@@ -500,7 +500,7 @@ def try_model(keys, imgs, labels, model_info, round_nr, lower_bound=True):
 # In[10]:
 
 
-policy_lr = 5e-5
+policy_lr = 1e-4
 value_lr = 1e-3 #-2
 
 policy_clip = 3
@@ -538,7 +538,7 @@ class policy_model:
         def custom_loss(y_true, y_pred, adv):
             log_lik =  K.log(y_true * (y_true- y_pred) + (1 - y_true) * (y_true + y_pred))
             loss = 1 / (-K.mean(log_lik * adv, keepdims=True))
-            return K.clip(loss, -0.2, 0.2)
+            return K.clip(loss, -0.3, 0.3)
             #return loss
 
         #self.policy.compile(optimizer=Adam(lr=1e-2), loss=custom_loss)
@@ -889,7 +889,7 @@ model_info_save = {
     'model_info': model_info
 }
 #model_info, num_models, num_trials
-file_save_path_name = f'enseble_ressults/i_batch_{TEST_ROUNDS}_ensemble_{REUSE}_value_lr_{value_lr}_64_4.json'
+file_save_path_name = f'enseble_ressults/j_batch_{TEST_ROUNDS}_ensemble_{REUSE}_pg_{policy_lr}_value_lr_{value_lr}_64_2.json'
 
 with open(file_save_path_name, "w") as file_write:
     # write json data into file
